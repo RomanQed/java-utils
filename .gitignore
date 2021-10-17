@@ -1,5 +1,15 @@
+# Gradle files
+.gradle/
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat
+
+# IDE files
+.idea/
+
 # Compiled class file
 *.class
+build/
 
 # Log file
 *.log
