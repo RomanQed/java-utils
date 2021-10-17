@@ -1,4 +1,4 @@
-package com.github.romanqed.java8utils.util;
+package com.github.romanqed.jutils.util;
 
 import java.io.Serializable;
 import java.util.Objects;

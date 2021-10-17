@@ -1,4 +1,4 @@
-package com.github.romanqed.java8utils.concurrent;
+package com.github.romanqed.jutils.concurrent;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
