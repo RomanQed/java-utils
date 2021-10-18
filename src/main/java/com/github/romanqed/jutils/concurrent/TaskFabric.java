@@ -8,5 +8,5 @@ public interface TaskFabric {
 
     ExecutorService getExecutor();
 
-    boolean isQueue();
+    boolean hasExecutor();
 }

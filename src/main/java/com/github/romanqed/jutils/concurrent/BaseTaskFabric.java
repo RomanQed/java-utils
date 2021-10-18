@@ -39,7 +39,7 @@ public class BaseTaskFabric implements TaskFabric {
     }
 
     @Override
-    public boolean isQueue() {
+    public boolean hasExecutor() {
         return executor != null;
     }
 }
