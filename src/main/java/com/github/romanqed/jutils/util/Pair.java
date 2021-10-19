@@ -27,7 +27,8 @@ public class Pair<K, V> implements Serializable {
 
     @Override
     public int hashCode() {
-        return key.hashCode() * 13 + (value == null ? 0 : value.hashCode());
+        return Checks.requireNonNullElse(key.hashCode(), 0) * 13 +
+                Checks.requireNonNullElse(value.hashCode(), 0);
     }
 
     @Override
