@@ -9,4 +9,6 @@ public interface TaskFabric {
     ExecutorService getExecutor();
 
     boolean hasExecutor();
+
+    void close();
 }

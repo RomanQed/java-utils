@@ -42,4 +42,9 @@ public class BaseTaskFabric implements TaskFabric {
     public boolean hasExecutor() {
         return executor != null;
     }
+
+    @Override
+    public void close() {
+        executor.shutdown();
+    }
 }
