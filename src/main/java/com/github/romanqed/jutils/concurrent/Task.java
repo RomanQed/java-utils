@@ -1,35 +1,25 @@
 package com.github.romanqed.jutils.concurrent;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 public interface Task<T> extends Callable<T> {
-    Future<T> async(Consumer<T> success, Consumer<Exception> failure);
+    Future<T> start(Consumer<T> success, Consumer<Exception> failure);
 
-    default Future<T> async(Consumer<T> success) {
-        return async(success, null);
-    }
+    Future<T> start(Consumer<T> success);
 
-    default Future<T> async() {
-        return async(null);
-    }
+    Future<T> start();
 
-    default T checked(Consumer<Exception> failure) {
-        try {
-            return call();
-        } catch (Exception e) {
-            if (failure != null) {
-                failure.accept(e);
-            }
-        }
-        return null;
-    }
+    CompletableFuture<T> async(Consumer<Exception> failure);
 
-    default T silent() {
-        return checked(null);
-    }
+    CompletableFuture<T> async();
+
+    T checked(Consumer<Exception> failure);
+
+    T silent();
 
     ExecutorService getExecutor();
 }

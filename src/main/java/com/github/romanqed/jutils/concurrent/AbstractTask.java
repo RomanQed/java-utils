@@ -1,12 +1,50 @@
 package com.github.romanqed.jutils.concurrent;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 public abstract class AbstractTask<T> implements Task<T> {
     @Override
-    public Future<T> async(Consumer<T> success, Consumer<Exception> failure) {
+    public CompletableFuture<T> async(Consumer<Exception> failure) {
+        return CompletableFuture.supplyAsync(() -> checked(failure));
+    }
+
+    @Override
+    public CompletableFuture<T> async() {
+        return async(null);
+    }
+
+    @Override
+    public Future<T> start(Consumer<T> success) {
+        return start(success, null);
+    }
+
+    @Override
+    public Future<T> start() {
+        return start(null, null);
+    }
+
+    @Override
+    public T checked(Consumer<Exception> failure) {
+        try {
+            return call();
+        } catch (Exception e) {
+            if (failure != null) {
+                failure.accept(e);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public T silent() {
+        return checked(null);
+    }
+
+    @Override
+    public Future<T> start(Consumer<T> success, Consumer<Exception> failure) {
         ExecutorService executor = getExecutor();
         if (executor == null) {
             throw new IllegalStateException("The task was not added to the queue");
@@ -27,10 +65,5 @@ public abstract class AbstractTask<T> implements Task<T> {
             }
             return null;
         });
-    }
-
-    @Override
-    public ExecutorService getExecutor() {
-        return null;
     }
 }

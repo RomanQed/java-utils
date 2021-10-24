@@ -6,14 +6,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BaseTaskFabric implements TaskFabric {
+public class ThreadTaskFabric implements TaskFabric {
     protected ExecutorService executor;
 
-    public BaseTaskFabric(ExecutorService executor) {
+    public ThreadTaskFabric(ExecutorService executor) {
         this.executor = Checks.requireNonNullElse(executor, Executors.newCachedThreadPool());
     }
 
-    public BaseTaskFabric() {
+    public ThreadTaskFabric() {
         this(null);
     }
 
