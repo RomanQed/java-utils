@@ -8,7 +8,11 @@ import java.util.function.Consumer;
 public abstract class AbstractTask<T> implements Task<T> {
     @Override
     public CompletableFuture<T> async(Consumer<Exception> failure) {
-        return CompletableFuture.supplyAsync(() -> checked(failure));
+        ExecutorService executor = getExecutor();
+        if (executor == null) {
+            return CompletableFuture.supplyAsync(() -> checked(failure));
+        }
+        return CompletableFuture.supplyAsync(() -> checked(failure), executor);
     }
 
     @Override
