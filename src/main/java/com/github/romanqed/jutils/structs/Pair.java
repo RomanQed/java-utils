@@ -1,4 +1,6 @@
-package com.github.romanqed.jutils.util;
+package com.github.romanqed.jutils.structs;
+
+import com.github.romanqed.jutils.util.Checks;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.github.romanqed', name: 'ranges', version: '1.0.0'
+    implementation group: 'com.github.romanqed', name: 'ranges', version: '2.0.0'
 }
 
 jar {

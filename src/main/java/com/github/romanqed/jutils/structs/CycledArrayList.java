@@ -1,29 +1,29 @@
-package com.github.romanqed.jutils.util;
+package com.github.romanqed.jutils.structs;
 
 import com.github.romanqed.ranges.CycledRange;
 
 import java.util.*;
 
 
-public class CycledList<T> extends ArrayList<T> {
-    public CycledList(int initialCapacity) {
+public class CycledArrayList<T> extends ArrayList<T> {
+    public CycledArrayList(int initialCapacity) {
         super(initialCapacity);
     }
 
-    public CycledList(Collection<? extends T> c) {
+    public CycledArrayList(Collection<? extends T> c) {
         super(c);
     }
 
-    public CycledList() {
+    public CycledArrayList() {
         super();
     }
 
     @SafeVarargs
-    public static <E> CycledList<E> of(E... elements) {
+    public static <E> CycledArrayList<E> of(E... elements) {
         if (elements == null) {
             return null;
         }
-        return new CycledList<>(Arrays.asList(elements));
+        return new CycledArrayList<>(Arrays.asList(elements));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CycledList<T> extends ArrayList<T> {
     @Override
     public T remove(int index) {
         CycledRange range = new CycledRange(size());
-        return super.remove(range.indexOf(index));
+        return super.remove(range.indexOf(index).intValue());
     }
 
     @Override
