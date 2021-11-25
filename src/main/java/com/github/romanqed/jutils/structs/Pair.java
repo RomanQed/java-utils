@@ -2,12 +2,11 @@ package com.github.romanqed.jutils.structs;
 
 import com.github.romanqed.jutils.util.Checks;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class Pair<K, V> implements Serializable {
-    private final K key;
-    private final V value;
+public class Pair<K, V> {
+    protected final K key;
+    protected final V value;
 
     public Pair(K key, V value) {
         this.key = key;
@@ -42,12 +41,7 @@ public class Pair<K, V> implements Serializable {
         if (!(o instanceof Pair)) {
             return false;
         }
-        Pair<K, V> pair;
-        try {
-            pair = (Pair<K, V>) o;
-        } catch (Exception e) {
-            return false;
-        }
+        Pair<K, V> pair = (Pair<K, V>) o;
         return Objects.equals(key, pair.key) && Objects.equals(value, pair.value);
     }
 }
