@@ -41,7 +41,12 @@ public class Pair<K, V> {
         if (!(o instanceof Pair)) {
             return false;
         }
-        Pair<K, V> pair = (Pair<K, V>) o;
+        Pair<K, V> pair;
+        try {
+            pair = (Pair<K, V>) o;
+        } catch (Exception e) {
+            return false;
+        }
         return Objects.equals(key, pair.key) && Objects.equals(value, pair.value);
     }
 }
