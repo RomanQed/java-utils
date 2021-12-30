@@ -2,23 +2,24 @@ package com.github.romanqed.jutils.structs;
 
 import java.util.Objects;
 
-public class BaseLink implements Link {
-    private Link tail;
+public abstract class AbstractLink<T extends Link> implements Link {
+    private T tail;
 
     @Override
-    public void attach(Link tail) {
-        this.tail = Objects.requireNonNull(tail);
+    @SuppressWarnings("unchecked")
+    public <E extends Link> void attach(E tail) {
+        this.tail = (T) Objects.requireNonNull(tail);
     }
 
     @Override
-    public Link detach() {
-        Link ret = tail;
+    public T detach() {
+        T ret = tail;
         tail = null;
         return ret;
     }
 
     @Override
-    public Link tail() {
+    public T tail() {
         return tail;
     }
 

@@ -1,7 +1,7 @@
 package com.github.romanqed.jutils.structs;
 
 public interface Link {
-    void attach(Link tail);
+    <T extends Link> void attach(T tail);
 
     Link detach();
 

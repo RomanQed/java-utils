@@ -1,6 +1,6 @@
 package com.github.romanqed.jutils.structs;
 
-public class ValueLink<E> extends BaseLink {
+public class ValueLink<E> extends AbstractLink<ValueLink<E>> {
     private E value;
 
     public ValueLink(E initValue){
