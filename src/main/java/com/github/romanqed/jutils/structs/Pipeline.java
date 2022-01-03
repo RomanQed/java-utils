@@ -28,10 +28,12 @@ public class Pipeline implements Map<String, Function<?, ?>> {
                 data = cur.getBody().apply(data);
             } catch (PipelineInterruptException e) {
                 return new PipelineResult(e.getBody(), true);
+            } catch (Exception e) {
+                return new PipelineResult(data, true, e);
             }
             cur = cur.tail();
         }
-        return new PipelineResult(data, false);
+        return new PipelineResult(data);
     }
 
     private void insert(String key, ActionLink start, ActionLink end, boolean after) {
@@ -261,10 +263,20 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     static class PipelineResult {
         private final boolean interrupted;
         private final Object result;
+        private final Exception exception;
 
-        protected PipelineResult(Object result, boolean interrupted) {
+        protected PipelineResult(Object result, boolean interrupted, Exception exception) {
             this.result = result;
             this.interrupted = interrupted;
+            this.exception = exception;
+        }
+
+        protected PipelineResult(Object result, boolean interrupted) {
+            this(result, interrupted, null);
+        }
+
+        protected PipelineResult(Object result) {
+            this(result, false, null);
         }
 
         public Object getResult() {
@@ -273,6 +285,10 @@ public class Pipeline implements Map<String, Function<?, ?>> {
 
         public boolean isInterrupted() {
             return interrupted;
+        }
+
+        public Exception getException() {
+            return exception;
         }
     }
 }
