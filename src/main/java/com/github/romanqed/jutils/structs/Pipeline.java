@@ -21,17 +21,17 @@ public class Pipeline implements Map<String, Function<?, ?>> {
         parents = new ConcurrentHashMap<>();
     }
 
-    public Object process(Object data) {
+    public PipelineResult process(Object data) {
         ActionLink cur = head;
         while (cur != null) {
             try {
                 data = cur.getBody().apply(data);
             } catch (PipelineInterruptException e) {
-                return e.getBody();
+                return new PipelineResult(e.getBody(), true);
             }
             cur = cur.tail();
         }
-        return data;
+        return new PipelineResult(data, false);
     }
 
     private void insert(String key, ActionLink start, ActionLink end, boolean after) {
@@ -256,5 +256,23 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     @Override
     public String toString() {
         return body.toString();
+    }
+
+    static class PipelineResult {
+        private final boolean interrupted;
+        private final Object result;
+
+        protected PipelineResult(Object result, boolean interrupted) {
+            this.result = result;
+            this.interrupted = interrupted;
+        }
+
+        public Object getResult() {
+            return result;
+        }
+
+        public boolean isInterrupted() {
+            return interrupted;
+        }
     }
 }
