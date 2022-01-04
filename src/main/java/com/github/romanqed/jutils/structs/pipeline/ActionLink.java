@@ -1,4 +1,6 @@
-package com.github.romanqed.jutils.structs;
+package com.github.romanqed.jutils.structs.pipeline;
+
+import com.github.romanqed.jutils.structs.AbstractLink;
 
 import java.util.Objects;
 import java.util.function.Function;

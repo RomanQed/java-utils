@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs;
+package com.github.romanqed.jutils.structs.pipeline;
 
 import java.util.Collection;
 import java.util.Map;
@@ -258,37 +258,5 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     @Override
     public String toString() {
         return body.toString();
-    }
-
-    static class PipelineResult {
-        private final boolean interrupted;
-        private final Object result;
-        private final Exception exception;
-
-        protected PipelineResult(Object result, boolean interrupted, Exception exception) {
-            this.result = result;
-            this.interrupted = interrupted;
-            this.exception = exception;
-        }
-
-        protected PipelineResult(Object result, boolean interrupted) {
-            this(result, interrupted, null);
-        }
-
-        protected PipelineResult(Object result) {
-            this(result, false, null);
-        }
-
-        public Object getResult() {
-            return result;
-        }
-
-        public boolean isInterrupted() {
-            return interrupted;
-        }
-
-        public Exception getException() {
-            return exception;
-        }
     }
 }
