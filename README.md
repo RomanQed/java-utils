@@ -5,6 +5,6 @@ A set of simple utilities for implementing missing functionality in different ve
 
 ```Groovy
 dependencies {
-    implementation group: 'com.github.romanqed', name: 'jutils', version: '1.2.2'
+    implementation group: 'com.github.romanqed', name: 'jutils', version: '1.2.3'
 }
 ```
