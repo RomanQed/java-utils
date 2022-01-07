@@ -5,7 +5,22 @@ import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 
 public class Checks {
+    public static <T> T requireNonException(Callable<T> expression, Callable<T> def) {
+        Objects.requireNonNull(expression);
+        Objects.requireNonNull(def);
+        try {
+            return expression.call();
+        } catch (Exception e) {
+            try {
+                return def.call();
+            } catch (Exception defException) {
+                throw new IllegalStateException("Exception when calling def!", defException);
+            }
+        }
+    }
+
     public static <T> T requireNonException(Callable<T> expression, T def) {
+        Objects.requireNonNull(expression);
         try {
             return expression.call();
         } catch (Exception e) {
