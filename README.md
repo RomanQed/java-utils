@@ -1,10 +1,44 @@
-# java-utils
+# java-utils [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.romanqed/jutils/badge.svg?style=flat)](https://repo1.maven.org/maven2/com/github/romanqed/jutils/)
+
 A set of simple utilities for implementing missing functionality in different versions of Java.
 
-## Gradle
+## Getting Started
+
+To install it, you will need:
+
+* any build of the JDK no older than version 8
+* Maven/Gradle
+
+## Installing
+
+### Gradle dependency
 
 ```Groovy
 dependencies {
-    implementation group: 'com.github.romanqed', name: 'jutils', version: '1.2.4'
+    implementation group: 'com.github.romanqed', name: 'jutils', version: 'LATEST'
 }
 ```
+
+### Maven dependency
+
+```
+<dependency>
+    <groupId>com.github.romanqed</groupId>
+    <artifactId>jutils</artifactId>
+    <version>LATEST</version>
+</dependency>
+```
+
+## Built With
+
+* [Gradle](https://gradle.org) - Dependency management
+
+## Authors
+* **RomanQed** - *Main work* - [RomanQed](https://github.com/RomanQed)
+
+See also the list of [contributors](https://github.com/AmayaFramework/amaya-filters/contributors)
+who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
