@@ -19,15 +19,6 @@ public class Checks {
         }
     }
 
-    public static <T> T requireNonException(Callable<T> expression, T def) {
-        Objects.requireNonNull(expression);
-        try {
-            return expression.call();
-        } catch (Exception e) {
-            return def;
-        }
-    }
-
     public static <T> T requireNonNullElse(T object, T def) {
         if (object == null) {
             return Objects.requireNonNull(def);
