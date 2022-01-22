@@ -1,4 +1,4 @@
-# java-utils [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.romanqed/jutils/badge.svg?style=flat)](https://repo1.maven.org/maven2/com/github/romanqed/jutils/)
+# java-utils [![maven-central](https://img.shields.io/maven-central/v/com.github.romanqed/jutils?color=blue)](https://repo1.maven.org/maven2/com/github/romanqed/jutils/)
 
 A set of simple utilities for implementing missing functionality in different versions of Java.
 
