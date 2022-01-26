@@ -85,13 +85,13 @@ public class Pipeline implements Map<String, Function<?, ?>> {
                 start = value.head.duplicate();
                 end = start;
                 while (cur.tail() != null) {
-                    body.put(cur.getName(), cur);
+                    body.put(cur.getName(), end);
                     parents.put(cur.tail().getName(), cur.getName());
                     end.attach(cur.tail().duplicate());
                     end = end.tail();
                     cur = cur.tail();
                 }
-                body.put(cur.getName(), cur);
+                body.put(cur.getName(), end);
             }
             insert(position, start, end, after);
         }
