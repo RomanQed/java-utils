@@ -2,6 +2,7 @@ package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Checks {
@@ -42,5 +43,26 @@ public class Checks {
 
     public static String requireNonEmptyString(String object) {
         return requireCorrectValue(object, (string) -> Objects.nonNull(object) && !string.isEmpty());
+    }
+
+    public static <T> T safetyCall(Callable<T> callable, Consumer<Exception> failure) {
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            if (failure != null) {
+                failure.accept(e);
+            }
+            return null;
+        }
+    }
+
+    public static void safetyRun(Runnable runnable, Consumer<Exception> failure) {
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            if (failure != null) {
+                failure.accept(e);
+            }
+        }
     }
 }
