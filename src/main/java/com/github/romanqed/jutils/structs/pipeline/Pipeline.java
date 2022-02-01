@@ -1,14 +1,15 @@
 package com.github.romanqed.jutils.structs.pipeline;
 
+import com.github.romanqed.jutils.util.Action;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Pipeline implements Map<String, Function<?, ?>> {
+public class Pipeline implements Map<String, Action<?, ?>> {
     private final Object lock;
     private final Map<String, ActionLink> body;
     private final Map<String, String> parents;
@@ -25,7 +26,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
         ActionLink cur = head;
         while (cur != null) {
             try {
-                data = cur.getBody().apply(data);
+                data = cur.getBody().execute(data);
             } catch (PipelineInterruptException e) {
                 return new PipelineResult(e.getBody(), true);
             } catch (Exception e) {
@@ -97,7 +98,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
         }
     }
 
-    public void insert(String position, String key, Function<?, ?> value, boolean after) {
+    public void insert(String position, String key, Action<?, ?> value, boolean after) {
         if (body.containsKey(key)) {
             throw new IllegalStateException("Pipeline already contains key " + key + "!");
         }
@@ -108,11 +109,11 @@ public class Pipeline implements Map<String, Function<?, ?>> {
         }
     }
 
-    public void insertAfter(String after, String key, Function<?, ?> value) {
+    public void insertAfter(String after, String key, Action<?, ?> value) {
         insert(after, key, value, true);
     }
 
-    public void insertBefore(String before, String key, Function<?, ?> value) {
+    public void insertBefore(String before, String key, Action<?, ?> value) {
         insert(before, key, value, false);
     }
 
@@ -145,7 +146,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     }
 
     @Override
-    public Function<Object, Object> get(Object key) {
+    public Action<Object, Object> get(Object key) {
         ActionLink ret = body.get(key);
         if (ret != null) {
             return ret.getBody();
@@ -154,7 +155,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     }
 
     @Override
-    public Function<?, ?> put(String key, Function<?, ?> value) {
+    public Action<?, ?> put(String key, Action<?, ?> value) {
         synchronized (lock) {
             ActionLink toAdd = new ActionLink(key, value);
             ActionLink ret = body.put(key, toAdd);
@@ -180,7 +181,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     }
 
     @Override
-    public Function<Object, Object> remove(Object key) {
+    public Action<Object, Object> remove(Object key) {
         synchronized (lock) {
             ActionLink ret = body.remove(key);
             if (ret == null) {
@@ -209,7 +210,7 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends Function<?, ?>> m) {
+    public void putAll(Map<? extends String, ? extends Action<?, ?>> m) {
         Objects.requireNonNull(m);
         m.forEach(this::put);
     }
@@ -230,13 +231,13 @@ public class Pipeline implements Map<String, Function<?, ?>> {
     }
 
     @Override
-    public Collection<Function<?, ?>> values() {
+    public Collection<Action<?, ?>> values() {
         return body.values().stream().map(ActionLink::getBody).collect(Collectors.toList());
     }
 
     @Override
-    public Set<Entry<String, Function<?, ?>>> entrySet() {
-        return body.entrySet().stream().map(e -> new Entry<String, Function<?, ?>>() {
+    public Set<Entry<String, Action<?, ?>>> entrySet() {
+        return body.entrySet().stream().map(e -> new Entry<String, Action<?, ?>>() {
 
             @Override
             public String getKey() {
@@ -244,12 +245,12 @@ public class Pipeline implements Map<String, Function<?, ?>> {
             }
 
             @Override
-            public Function<?, ?> getValue() {
+            public Action<?, ?> getValue() {
                 return e.getValue().getBody();
             }
 
             @Override
-            public Function<?, ?> setValue(Function<?, ?> value) {
+            public Action<?, ?> setValue(Action<?, ?> value) {
                 throw new UnsupportedOperationException("Unsupported operation: setValue!");
             }
         }).collect(Collectors.toSet());
