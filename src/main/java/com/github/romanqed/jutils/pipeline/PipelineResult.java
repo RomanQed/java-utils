@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs.pipeline;
+package com.github.romanqed.jutils.pipeline;
 
 public class PipelineResult {
     private final boolean interrupted;

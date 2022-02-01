@@ -1,6 +1,4 @@
-package com.github.romanqed.jutils.structs;
-
-import com.github.romanqed.jutils.util.Checks;
+package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
 

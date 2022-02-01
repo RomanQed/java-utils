@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs.pipeline;
+package com.github.romanqed.jutils.pipeline;
 
 import com.github.romanqed.jutils.util.Action;
 

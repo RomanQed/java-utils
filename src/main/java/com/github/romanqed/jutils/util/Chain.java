@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs;
+package com.github.romanqed.jutils.util;
 
 public interface Chain<E extends Link> extends Iterable<E> {
     void add(E link);

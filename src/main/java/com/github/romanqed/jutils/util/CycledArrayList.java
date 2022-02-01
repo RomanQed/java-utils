@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs;
+package com.github.romanqed.jutils.util;
 
 import com.github.romanqed.ranges.CycledRange;
 

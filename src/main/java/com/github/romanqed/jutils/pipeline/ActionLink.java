@@ -1,6 +1,6 @@
-package com.github.romanqed.jutils.structs.pipeline;
+package com.github.romanqed.jutils.pipeline;
 
-import com.github.romanqed.jutils.structs.AbstractLink;
+import com.github.romanqed.jutils.util.AbstractLink;
 import com.github.romanqed.jutils.util.Action;
 
 import java.util.Objects;

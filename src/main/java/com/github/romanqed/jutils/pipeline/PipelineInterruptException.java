@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs.pipeline;
+package com.github.romanqed.jutils.pipeline;
 
 public class PipelineInterruptException extends RuntimeException {
     private final Object body;

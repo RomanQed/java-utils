@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.structs;
+package com.github.romanqed.jutils.util;
 
 public interface Link {
     <T extends Link> void attach(T tail);
