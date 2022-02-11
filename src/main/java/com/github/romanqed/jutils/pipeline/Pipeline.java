@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class Pipeline implements Map<String, Action<?, ?>> {
+public class Pipeline implements Action<Object, Object>, Map<String, Action<?, ?>> {
     private final Object lock;
     private final Map<String, ActionLink> body;
     private final Map<String, String> parents;
@@ -22,19 +22,18 @@ public class Pipeline implements Map<String, Action<?, ?>> {
         parents = new ConcurrentHashMap<>();
     }
 
-    public PipelineResult process(Object data) {
+    @Override
+    public Object execute(Object o) throws Exception {
         ActionLink cur = head;
         while (cur != null) {
             try {
-                data = cur.getBody().execute(data);
+                o = cur.getBody().execute(o);
             } catch (PipelineInterruptException e) {
-                return new PipelineResult(e.getBody(), true);
-            } catch (Exception e) {
-                return new PipelineResult(data, true, e);
+                return e.getBody();
             }
             cur = cur.tail();
         }
-        return new PipelineResult(data);
+        return o;
     }
 
     private void insert(String key, ActionLink start, ActionLink end, boolean after) {
