@@ -179,6 +179,18 @@ public class Pipeline implements Action<Object, Object>, Map<String, Action<?, ?
         }
     }
 
+    public void put(Pipeline value) {
+        synchronized (lock) {
+            synchronized (value.lock) {
+                ActionLink start = value.head;
+                while (start != null) {
+                    put(start.getName(), start.getBody());
+                    start = start.tail();
+                }
+            }
+        }
+    }
+
     @Override
     public Action<Object, Object> remove(Object key) {
         synchronized (lock) {
