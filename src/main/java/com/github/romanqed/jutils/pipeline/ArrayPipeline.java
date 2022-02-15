@@ -72,17 +72,45 @@ public class ArrayPipeline<T> implements Pipeline<T> {
     }
 
     private void insert(T key, Node<T, Action<Object, Object>> value, boolean after) {
+        Integer index = indexes.get(key);
+        if (index == null) {
+            throw new NoSuchElementException();
+        }
+        int match = index;
+        if (after) {
+            index += 1;
+        } else {
+            match -= 1;
+        }
+        for (Map.Entry<T, Integer> entry : indexes.entrySet()) {
+            int entryValue = entry.getValue();
+            if (entryValue > match) {
+                entry.setValue(entryValue + 1);
+            }
+        }
+        indexes.put(value.getKey(), index);
+        body.add(index, value);
+    }
 
+    @SuppressWarnings("unchecked")
+    private void insert(T key, T insertKey, Action<?, ?> value, boolean after) {
+        if (indexes.containsKey(insertKey)) {
+            throw new IllegalStateException("Pipeline already contains key " + insertKey + "!");
+        }
+        synchronized (lock) {
+            Node<T, Action<Object, Object>> toInsert = new Node<>(insertKey, (Action<Object, Object>) value);
+            insert(key, toInsert, after);
+        }
     }
 
     @Override
     public void insertAfter(T key, T insertKey, Action<?, ?> value) {
-
+        insert(key, insertKey, value, true);
     }
 
     @Override
     public void insertBefore(T key, T insertKey, Action<?, ?> value) {
-
+        insert(key, insertKey, value, false);
     }
 
     @Override

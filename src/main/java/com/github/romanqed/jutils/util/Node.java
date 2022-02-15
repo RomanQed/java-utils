@@ -34,4 +34,9 @@ public class Node<T, V> {
         }
         return this.hashCode() == obj.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return key.toString();
+    }
 }
