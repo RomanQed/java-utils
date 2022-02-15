@@ -3,7 +3,10 @@ package com.github.romanqed.jutils.pipeline;
 import com.github.romanqed.jutils.util.Action;
 import com.github.romanqed.jutils.util.Node;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LinkedPipeline<T> implements Pipeline<T> {
