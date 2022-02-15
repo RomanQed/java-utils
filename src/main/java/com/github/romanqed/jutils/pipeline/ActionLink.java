@@ -5,20 +5,20 @@ import com.github.romanqed.jutils.util.Action;
 
 import java.util.Objects;
 
-public class ActionLink extends AbstractLink<ActionLink> {
+public class ActionLink<T> extends AbstractLink<ActionLink<T>> {
     private final Action<Object, Object> body;
-    private final String name;
+    private final T key;
 
     @SuppressWarnings("unchecked")
-    public ActionLink(String name, Action<?, ?> body) {
-        Objects.requireNonNull(name);
+    public ActionLink(T key, Action<?, ?> body) {
+        Objects.requireNonNull(key);
         Objects.requireNonNull(body);
-        this.name = name;
+        this.key = key;
         this.body = (Action<Object, Object>) body;
     }
 
-    public String getName() {
-        return name;
+    public T getKey() {
+        return key;
     }
 
     public Action<Object, Object> getBody() {
@@ -27,6 +27,6 @@ public class ActionLink extends AbstractLink<ActionLink> {
 
     @Override
     public String toString() {
-        return "this(" + name + ") -> " + (tail() == null ? null : tail().name);
+        return "this(" + key + ") -> " + (tail() == null ? null : tail().key);
     }
 }

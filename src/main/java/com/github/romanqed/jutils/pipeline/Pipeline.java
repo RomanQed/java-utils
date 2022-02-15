@@ -11,7 +11,7 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
 
     Action<?, ?> put(T key, Action<?, ?> value);
 
-    Action<?, ?> remove(String key);
+    Action<?, ?> remove(T key);
 
     void insertAfter(T key, T insertKey, Action<?, ?> value);
 
