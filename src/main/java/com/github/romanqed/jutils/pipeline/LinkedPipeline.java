@@ -4,6 +4,7 @@ import com.github.romanqed.jutils.util.Action;
 import com.github.romanqed.jutils.util.Node;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LinkedPipeline<T> implements Pipeline<T> {
     private final Object lock;
@@ -14,8 +15,8 @@ public class LinkedPipeline<T> implements Pipeline<T> {
 
     public LinkedPipeline() {
         lock = new Object();
-        body = new HashMap<>();
-        parents = new HashMap<>();
+        body = new ConcurrentHashMap<>();
+        parents = new ConcurrentHashMap<>();
     }
 
     @Override
