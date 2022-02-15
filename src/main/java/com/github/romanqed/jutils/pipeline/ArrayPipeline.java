@@ -71,6 +71,11 @@ public class ArrayPipeline<T> implements Pipeline<T> {
         }
     }
 
+    @Override
+    public boolean contains(T key) {
+        return indexes.containsKey(key);
+    }
+
     private void insert(T key, Node<T, Action<Object, Object>> value, boolean after) {
         Integer index = indexes.get(key);
         if (index == null) {

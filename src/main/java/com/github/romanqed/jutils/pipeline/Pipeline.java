@@ -13,6 +13,8 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
 
     Action<?, ?> remove(T key);
 
+    boolean contains(T key);
+
     void insertAfter(T key, T insertKey, Action<?, ?> value);
 
     void insertBefore(T key, T insertKey, Action<?, ?> value);

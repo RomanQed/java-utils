@@ -98,6 +98,11 @@ public class LinkedPipeline<T> implements Pipeline<T> {
         }
     }
 
+    @Override
+    public boolean contains(T key) {
+        return body.containsKey(key);
+    }
+
     private void insert(T key, ActionLink<T> value, boolean after) {
         Objects.requireNonNull(key);
         if (value == null) {
