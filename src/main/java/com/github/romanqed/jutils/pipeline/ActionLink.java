@@ -21,16 +21,12 @@ public class ActionLink extends AbstractLink<ActionLink> {
         return name;
     }
 
-    public ActionLink duplicate() {
-        return new ActionLink(name, body);
-    }
-
     public Action<Object, Object> getBody() {
         return body;
     }
 
     @Override
     public String toString() {
-        return "{this(" + name + ")} -> " + "{" + (tail() == null ? null : tail().name) + "}";
+        return "this(" + name + ") -> " + (tail() == null ? null : tail().name);
     }
 }

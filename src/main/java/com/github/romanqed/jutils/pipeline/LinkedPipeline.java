@@ -1,151 +1,40 @@
 package com.github.romanqed.jutils.pipeline;
 
 import com.github.romanqed.jutils.util.Action;
+import com.github.romanqed.jutils.util.Node;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.*;
 
-public class LinkedPipeline implements Pipeline {
+public class LinkedPipeline implements Pipeline<String> {
     private final Object lock;
     private final Map<String, ActionLink> body;
     private final Map<String, String> parents;
-    private ActionLink tail;
     private ActionLink head;
+    private ActionLink tail;
 
     public LinkedPipeline() {
         lock = new Object();
-        body = new ConcurrentHashMap<>();
-        parents = new ConcurrentHashMap<>();
+        body = new HashMap<>();
+        parents = new HashMap<>();
     }
 
     @Override
     public Object execute(Object o) throws Exception {
+        Object data = o;
         ActionLink cur = head;
         while (cur != null) {
             try {
-                o = cur.getBody().execute(o);
-            } catch (PipelineInterruptException e) {
+                data = cur.getBody().execute(data);
+            } catch (InterruptException e) {
                 return e.getBody();
             }
             cur = cur.tail();
         }
-        return o;
-    }
-
-    private void insert(String key, ActionLink start, ActionLink end, boolean after) {
-        Objects.requireNonNull(key);
-        if (start == null) {
-            return;
-        }
-        ActionLink pos = body.get(key);
-        Objects.requireNonNull(pos);
-        if (after) {
-            ActionLink child = pos.detach();
-            end.attach(child);
-            pos.attach(start);
-            if (pos == tail) {
-                tail = end;
-            } else {
-                parents.put(child.getName(), end.getName());
-            }
-            parents.put(start.getName(), key);
-        } else {
-            end.attach(pos);
-            if (pos == head) {
-                head = start;
-            } else {
-                ActionLink parent = body.get(parents.remove(key));
-                parent.attach(start);
-                parents.put(start.getName(), parent.getName());
-            }
-            parents.put(key, end.getName());
-        }
-    }
-
-    private void check(LinkedPipeline pipeline) {
-        for (String key : pipeline.body.keySet()) {
-            if (body.containsKey(key)) {
-                throw new IllegalStateException("Pipeline already contains key " + key + "!");
-            }
-        }
-    }
-
-    public void insert(String position, LinkedPipeline value, boolean after) {
-        Objects.requireNonNull(value);
-        check(value);
-        synchronized (lock) {
-            ActionLink start;
-            ActionLink end;
-            synchronized (value.lock) {
-                ActionLink cur = value.head;
-                start = value.head.duplicate();
-                end = start;
-                while (cur.tail() != null) {
-                    body.put(cur.getName(), end);
-                    parents.put(cur.tail().getName(), cur.getName());
-                    end.attach(cur.tail().duplicate());
-                    end = end.tail();
-                    cur = cur.tail();
-                }
-                body.put(cur.getName(), end);
-            }
-            insert(position, start, end, after);
-        }
-    }
-
-    public void insert(String position, String key, Action<?, ?> value, boolean after) {
-        if (body.containsKey(key)) {
-            throw new IllegalStateException("Pipeline already contains key " + key + "!");
-        }
-        synchronized (lock) {
-            ActionLink toInsert = new ActionLink(key, value);
-            body.put(key, toInsert);
-            insert(position, toInsert, toInsert, after);
-        }
-    }
-
-    public void insertAfter(String after, String key, Action<?, ?> value) {
-        insert(after, key, value, true);
-    }
-
-    public void insertBefore(String before, String key, Action<?, ?> value) {
-        insert(before, key, value, false);
-    }
-
-    public void insertAfter(String after, LinkedPipeline value) {
-        insert(after, value, true);
-    }
-
-    public void insertBefore(String before, LinkedPipeline value) {
-        insert(before, value, false);
+        return data;
     }
 
     @Override
-    public int size() {
-        return body.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return body.isEmpty();
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
-        return body.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-        return body.containsValue(value);
-    }
-
-    @Override
-    public Action<Object, Object> get(Object key) {
+    public Action<?, ?> get(String key) {
         ActionLink ret = body.get(key);
         if (ret != null) {
             return ret.getBody();
@@ -179,20 +68,8 @@ public class LinkedPipeline implements Pipeline {
         }
     }
 
-    public void put(LinkedPipeline value) {
-        synchronized (lock) {
-            synchronized (value.lock) {
-                ActionLink start = value.head;
-                while (start != null) {
-                    put(start.getName(), start.getBody());
-                    start = start.tail();
-                }
-            }
-        }
-    }
-
     @Override
-    public Action<Object, Object> remove(Object key) {
+    public Action<?, ?> remove(String key) {
         synchronized (lock) {
             ActionLink ret = body.remove(key);
             if (ret == null) {
@@ -220,10 +97,55 @@ public class LinkedPipeline implements Pipeline {
         }
     }
 
+    private void insert(String key, ActionLink value, boolean after) {
+        Objects.requireNonNull(key);
+        if (value == null) {
+            return;
+        }
+        ActionLink pos = body.get(key);
+        Objects.requireNonNull(pos);
+        if (after) {
+            ActionLink child = pos.detach();
+            value.attach(child);
+            pos.attach(value);
+            if (pos == tail) {
+                tail = value;
+            } else {
+                parents.put(child.getName(), value.getName());
+            }
+            parents.put(value.getName(), key);
+        } else {
+            value.attach(pos);
+            if (pos == head) {
+                head = value;
+            } else {
+                ActionLink parent = body.get(parents.remove(key));
+                parent.attach(value);
+                parents.put(value.getName(), parent.getName());
+            }
+            parents.put(key, value.getName());
+        }
+    }
+
+    private void insert(String key, String insertKey, Action<?, ?> value, boolean after) {
+        if (body.containsKey(insertKey)) {
+            throw new IllegalStateException("Pipeline already contains key " + insertKey + "!");
+        }
+        synchronized (lock) {
+            ActionLink toInsert = new ActionLink(insertKey, value);
+            body.put(insertKey, toInsert);
+            insert(key, toInsert, after);
+        }
+    }
+
     @Override
-    public void putAll(Map<? extends String, ? extends Action<?, ?>> m) {
-        Objects.requireNonNull(m);
-        m.forEach(this::put);
+    public void insertAfter(String key, String insertKey, Action<?, ?> value) {
+        insert(key, insertKey, value, true);
+    }
+
+    @Override
+    public void insertBefore(String key, String insertKey, Action<?, ?> value) {
+        insert(key, insertKey, value, false);
     }
 
     @Override
@@ -237,38 +159,45 @@ public class LinkedPipeline implements Pipeline {
     }
 
     @Override
-    public Set<String> keySet() {
-        return body.keySet();
+    public int size() {
+        return body.size();
     }
 
     @Override
-    public Collection<Action<?, ?>> values() {
-        return body.values().stream().map(ActionLink::getBody).collect(Collectors.toList());
+    public boolean isEmpty() {
+        return body.isEmpty();
     }
 
     @Override
-    public Set<Entry<String, Action<?, ?>>> entrySet() {
-        return body.entrySet().stream().map(e -> new Entry<String, Action<?, ?>>() {
-
-            @Override
-            public String getKey() {
-                return e.getKey();
-            }
-
-            @Override
-            public Action<?, ?> getValue() {
-                return e.getValue().getBody();
-            }
-
-            @Override
-            public Action<?, ?> setValue(Action<?, ?> value) {
-                throw new UnsupportedOperationException("Unsupported operation: setValue!");
-            }
-        }).collect(Collectors.toSet());
+    public Iterator<Node<String, Action<Object, Object>>> iterator() {
+        return new LinkedPipelineIterator(head);
     }
 
     @Override
     public String toString() {
         return body.toString();
+    }
+
+    private static class LinkedPipelineIterator implements Iterator<Node<String, Action<Object, Object>>> {
+        private ActionLink head;
+
+        private LinkedPipelineIterator(ActionLink head) {
+            this.head = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return head != null;
+        }
+
+        @Override
+        public Node<String, Action<Object, Object>> next() {
+            if (head == null) {
+                throw new NoSuchElementException();
+            }
+            ActionLink ret = head;
+            head = head.tail();
+            return new Node<>(ret.getName(), ret.getBody());
+        }
     }
 }
