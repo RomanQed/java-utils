@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.util;
+package com.github.romanqed.jutils.chain;
 
 public abstract class AbstractLink<T extends Link> implements Link {
     private T tail;

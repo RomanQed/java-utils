@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.util;
+package com.github.romanqed.jutils.chain;
 
 public class ValueLink<E> extends AbstractLink<ValueLink<E>> {
     private E value;

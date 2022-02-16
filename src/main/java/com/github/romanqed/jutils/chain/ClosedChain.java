@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.util;
+package com.github.romanqed.jutils.chain;
 
 import java.util.Iterator;
 
