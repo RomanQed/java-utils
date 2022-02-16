@@ -63,9 +63,15 @@ public class ArrayPipeline<T> implements Pipeline<T> {
     public Action<?, ?> remove(T key) {
         Objects.requireNonNull(key);
         synchronized (lock) {
-            Integer index = indexes.get(key);
+            Integer index = indexes.remove(key);
             if (index == null) {
                 return null;
+            }
+            for (Map.Entry<T, Integer> entry : indexes.entrySet()) {
+                int entryValue = entry.getValue();
+                if (entryValue > index) {
+                    entry.setValue(entryValue - 1);
+                }
             }
             return body.remove((int) index).getValue();
         }
