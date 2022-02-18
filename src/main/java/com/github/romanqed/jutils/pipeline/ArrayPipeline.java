@@ -143,6 +143,11 @@ public class ArrayPipeline<T> implements Pipeline<T> {
     }
 
     @Override
+    public String toString() {
+        return body.toString();
+    }
+
+    @Override
     public Iterator<Node<T, Action<Object, Object>>> iterator() {
         return body.iterator();
     }
