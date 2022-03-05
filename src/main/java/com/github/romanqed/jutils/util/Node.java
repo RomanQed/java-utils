@@ -2,10 +2,6 @@ package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
 
-/**
- * @param <T>
- * @param <V>
- */
 public class Node<T, V> {
     private final T key;
     private final V value;
@@ -15,16 +11,10 @@ public class Node<T, V> {
         this.value = value;
     }
 
-    /**
-     * @return
-     */
     public T getKey() {
         return key;
     }
 
-    /**
-     * @return
-     */
     public V getValue() {
         return value;
     }

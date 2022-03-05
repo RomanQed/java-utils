@@ -8,7 +8,7 @@ public interface Link {
      * Attaches a link instance to the current object.
      *
      * @param tail link object
-     * @param <T> type of link to be attached
+     * @param <T>  type of link to be attached
      */
     <T extends Link> void attach(T tail);
 

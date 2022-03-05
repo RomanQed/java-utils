@@ -25,7 +25,7 @@ public interface Action<T, R> {
     R execute(T t) throws Exception;
 
     /**
-     * Returns completable future contains this action executing
+     * Returns completable future contains this action executing.
      *
      * @param t the action argument
      * @return {@link CompletableFuture} returns action result

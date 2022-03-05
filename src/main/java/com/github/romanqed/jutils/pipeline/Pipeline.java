@@ -26,55 +26,71 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
     Action<?, ?> get(T key);
 
     /**
-     * @param key
-     * @param value
-     * @return
+     * Puts a value with a key at the end of the chain of actions.
+     *
+     * @param key   action key to be inserted
+     * @param value action to be inserted
+     * @return an action that has already been with the same key, or null
      */
     Action<?, ?> put(T key, Action<?, ?> value);
 
     /**
-     * @param key
-     * @return
+     * Removes the action by key.
+     *
+     * @param key the key by which the search and deletion will be performed.
+     * @return removed action, if it existed, or null
      */
     Action<?, ?> remove(T key);
 
     /**
-     * @param key
-     * @return
+     * Checks whether the pipeline contains a key.
+     *
+     * @param key the key to be checked
+     * @return result of checking
      */
     boolean contains(T key);
 
     /**
-     * @param key
-     * @param insertKey
-     * @param value
+     * Inserts an action with an insert key after an action with a key equal to the one received.
+     *
+     * @param key       the key after which the insert will be
+     * @param insertKey the key to insert with
+     * @param value     the action to insert
      */
     void insertAfter(T key, T insertKey, Action<?, ?> value);
 
     /**
-     * @param key
-     * @param insertKey
-     * @param value
+     * Inserts an action with an insert key before an action with a key equal to the one received.
+     *
+     * @param key       the key before which the insert will be
+     * @param insertKey the key to insert with
+     * @param value     the action to insert
      */
     void insertBefore(T key, T insertKey, Action<?, ?> value);
 
     /**
-     *
+     * Clears pipeline.
      */
     void clear();
 
     /**
-     * @return
+     * Returns size of pipeline.
+     *
+     * @return number of actions in the pipeline
      */
     int size();
 
     /**
-     * @return
+     * Checks if pipeline is empty.
+     *
+     * @return boolean flag
      */
     boolean isEmpty();
 
     /**
-     * @param value
+     * Puts all actions from received pipeline at the end of the chain of actions.
+     *
+     * @param value pipeline to be put
      */
     default void putAll(Pipeline<T> value) {
         Objects.requireNonNull(value);
@@ -84,8 +100,10 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
     }
 
     /**
-     * @param key
-     * @param value
+     * Inserts all actions from received pipeline with after an action with a key equal to the one received.
+     *
+     * @param key   the key after which the insert will be
+     * @param value pipeline to be inserted
      */
     default void insertAfter(T key, Pipeline<T> value) {
         Objects.requireNonNull(key);
@@ -97,8 +115,10 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
     }
 
     /**
-     * @param key
-     * @param value
+     * Inserts all actions from received pipeline with before an action with a key equal to the one received.
+     *
+     * @param key   the key before which the insert will be
+     * @param value pipeline to be inserted
      */
     default void insertBefore(T key, Pipeline<T> value) {
         Objects.requireNonNull(key);

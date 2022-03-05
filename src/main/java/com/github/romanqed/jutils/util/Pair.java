@@ -2,10 +2,6 @@ package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
 
-/**
- * @param <K>
- * @param <V>
- */
 public class Pair<K, V> {
     protected final K key;
     protected final V value;
@@ -15,16 +11,10 @@ public class Pair<K, V> {
         this.value = value;
     }
 
-    /**
-     * @return
-     */
     public K getKey() {
         return key;
     }
 
-    /**
-     * @return
-     */
     public V getValue() {
         return value;
     }
