@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LinkedPipeline<T> implements Pipeline<T> {
@@ -35,6 +36,21 @@ public class LinkedPipeline<T> implements Pipeline<T> {
             cur = cur.tail();
         }
         return data;
+    }
+
+    @Override
+    public CompletableFuture<Object> async(Object o) {
+        ActionLink<?> cur = head;
+        if (cur == null) {
+            return CompletableFuture.completedFuture(o);
+        }
+        CompletableFuture<Object> ret = cur.getBody().async(o);
+        cur = cur.tail();
+        while (cur != null) {
+            ret = ret.thenApplyAsync(Utils.packToFunction(cur.getBody()));
+            cur = cur.tail();
+        }
+        return ret.exceptionally(Utils.EXCEPTION_HANDLER);
     }
 
     @Override

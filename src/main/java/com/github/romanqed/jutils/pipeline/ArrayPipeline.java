@@ -4,6 +4,7 @@ import com.github.romanqed.jutils.util.Action;
 import com.github.romanqed.jutils.util.Node;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ArrayPipeline<T> implements Pipeline<T> {
@@ -28,6 +29,19 @@ public class ArrayPipeline<T> implements Pipeline<T> {
             }
         }
         return data;
+    }
+
+    @Override
+    public CompletableFuture<Object> async(Object o) {
+        Iterator<Node<T, Action<Object, Object>>> iterator = body.iterator();
+        if (!iterator.hasNext()) {
+            return CompletableFuture.completedFuture(o);
+        }
+        CompletableFuture<Object> ret = iterator.next().getValue().async(o);
+        while (iterator.hasNext()) {
+            ret = ret.thenApplyAsync(Utils.packToFunction(iterator.next().getValue()));
+        }
+        return ret.exceptionally(Utils.EXCEPTION_HANDLER);
     }
 
     @Override

@@ -27,7 +27,9 @@ package com.github.romanqed.jutils.http;
 
 import java.util.*;
 
-
+/**
+ * A structure describing the http protocol header storage. Implemented in map format.
+ */
 public class HeaderMap implements Map<String, List<String>> {
     private final Map<String, List<String>> map;
 

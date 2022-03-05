@@ -1,6 +1,7 @@
 package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 @FunctionalInterface
 public interface Action<T, R> {
@@ -22,6 +23,22 @@ public interface Action<T, R> {
      * @throws Exception any exception that can be thrown in the action process
      */
     R execute(T t) throws Exception;
+
+    /**
+     * Returns completable future contains this action executing
+     *
+     * @param t the action argument
+     * @return {@link CompletableFuture} returns action result
+     */
+    default CompletableFuture<R> async(T t) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return execute(t);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
     /**
      * Returns a composed action that first executes the {@code before}

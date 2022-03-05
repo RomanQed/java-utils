@@ -1,5 +1,8 @@
 package com.github.romanqed.jutils.http;
 
+/**
+ * An enumeration containing basic http codes with an integer value and a text message.
+ */
 public enum HttpCode {
     // Informational
     CONTINUE(100, "Continue"),

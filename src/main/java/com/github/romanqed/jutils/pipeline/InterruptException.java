@@ -1,15 +1,18 @@
 package com.github.romanqed.jutils.pipeline;
 
+/**
+ * An exception that is an interrupt marker for the pipeline.
+ */
 public class InterruptException extends RuntimeException {
     private final Object body;
 
-    public InterruptException(String s, Object body) {
-        super(s);
+    public InterruptException(String message, Object body) {
+        super(message);
         this.body = body;
     }
 
-    public InterruptException(String s) {
-        super(s);
+    public InterruptException(String message) {
+        super(message);
         this.body = null;
     }
 

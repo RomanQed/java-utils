@@ -5,7 +5,7 @@ import com.github.romanqed.jutils.util.Action;
 
 import java.util.Objects;
 
-public class ActionLink<T> extends AbstractLink<ActionLink<T>> {
+class ActionLink<T> extends AbstractLink<ActionLink<T>> {
     private final Action<Object, Object> body;
     private final T key;
 
