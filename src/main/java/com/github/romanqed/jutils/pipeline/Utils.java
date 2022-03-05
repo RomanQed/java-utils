@@ -9,11 +9,14 @@ class Utils {
 
     static {
         EXCEPTION_HANDLER = throwable -> {
-            throwable = throwable.getCause();
-            if (throwable instanceof InterruptException) {
-                return ((InterruptException) throwable).getBody();
+            Throwable cause = throwable.getCause();
+            if (cause instanceof InterruptException) {
+                return ((InterruptException) cause).getBody();
             }
-            throw new RuntimeException(throwable);
+            if (cause instanceof Error) {
+                throw (Error) cause;
+            }
+            throw (RuntimeException) cause;
         };
     }
 
@@ -24,7 +27,7 @@ class Utils {
                     return action.async(value).get();
                 }
                 return action.execute(value);
-            } catch (InterruptException e) {
+            } catch (RuntimeException | Error e) {
                 throw e;
             } catch (Exception e) {
                 throw new RuntimeException(e);
