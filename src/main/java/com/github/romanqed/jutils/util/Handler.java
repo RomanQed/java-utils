@@ -24,6 +24,8 @@ public interface Handler<T> {
         return CompletableFuture.runAsync(() -> {
             try {
                 handle(t);
+            } catch (RuntimeException | Error e) {
+                throw e;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

@@ -34,6 +34,8 @@ public interface Action<T, R> {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return execute(t);
+            } catch (RuntimeException | Error e) {
+                throw e;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
