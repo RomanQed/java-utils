@@ -10,7 +10,10 @@ public class QuoteTokenizer implements Tokenizer {
     private static final String REGEX = "%q([^%q]+)%q|\\S+";
     private final Pattern pattern;
 
+    private final char quote;
+
     public QuoteTokenizer(char quote) {
+        this.quote = quote;
         String regex = REGEX.replace("%q", "" + quote);
         pattern = Pattern.compile(regex);
     }
@@ -24,7 +27,7 @@ public class QuoteTokenizer implements Tokenizer {
         Matcher matcher = pattern.matcher(string);
         List<String> ret = new ArrayList<>();
         while (matcher.find()) {
-            String toAdd = matcher.group().replace("\"", "");
+            String toAdd = matcher.group().replace("" + quote, "");
             ret.add(toAdd);
         }
         return ret;
