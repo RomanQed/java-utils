@@ -6,6 +6,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Checks {
+    public static final Predicate<String> NOT_EMPTY_STRING = e -> e != null && !e.isEmpty();
+    public static final Predicate<Integer> GT_ZERO = e -> e != null && e > 0;
+    public static final Predicate<Integer> LT_ZERO = e -> e != null && e < 0;
+
     public static <T> T requireNonException(Callable<T> expression, Callable<T> def) {
         Objects.requireNonNull(expression);
         Objects.requireNonNull(def);
