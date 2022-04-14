@@ -27,8 +27,7 @@ public class QuoteTokenizer implements Tokenizer {
         Matcher matcher = pattern.matcher(string);
         List<String> ret = new ArrayList<>();
         while (matcher.find()) {
-            String toAdd = matcher.group().replace("" + quote, "");
-            ret.add(toAdd);
+            ret.add(matcher.group().replace("" + quote, ""));
         }
         return ret;
     }

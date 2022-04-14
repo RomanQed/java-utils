@@ -41,7 +41,7 @@ public class BracketTokenizer implements Tokenizer {
         for (int i = 0; i < source.length(); ++i) {
             char cur = source.charAt(i);
             if (cur == open) {
-                count += 1;
+                count++;
                 if (count > 1) {
                     temp.append(cur);
                 }
@@ -57,7 +57,7 @@ public class BracketTokenizer implements Tokenizer {
                     count = 0;
                 } else {
                     temp.append(cur);
-                    count -= 1;
+                    count--;
                 }
                 continue;
             }
