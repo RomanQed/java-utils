@@ -33,7 +33,7 @@ public class BracketTokenizer implements Tokenizer {
     }
 
     @Override
-    public Collection<String> tokenize(String string) throws ParseException {
+    public List<String> tokenize(String string) throws ParseException {
         List<String> ret = new ArrayList<>();
         String source = string.trim() + " ";
         int count = 0;

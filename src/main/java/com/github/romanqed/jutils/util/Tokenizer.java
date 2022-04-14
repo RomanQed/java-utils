@@ -1,8 +1,8 @@
 package com.github.romanqed.jutils.util;
 
 import java.text.ParseException;
-import java.util.Collection;
+import java.util.List;
 
 public interface Tokenizer {
-    Collection<String> tokenize(String string) throws ParseException;
+    List<String> tokenize(String string) throws ParseException;
 }
