@@ -12,7 +12,7 @@ public interface Handler<T> {
      * @param t the input argument
      * @throws Exception all exceptions that may occur in the process
      */
-    void handle(T t) throws Exception;
+    void handle(T t) throws Throwable;
 
     /**
      * Returns completable future contains this handler executing.
@@ -26,7 +26,7 @@ public interface Handler<T> {
                 handle(t);
             } catch (RuntimeException | Error e) {
                 throw e;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 throw new RuntimeException(e);
             }
         });

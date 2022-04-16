@@ -22,7 +22,7 @@ public interface Action<T, R> {
      * @return the action result
      * @throws Exception any exception that can be thrown in the action process
      */
-    R execute(T t) throws Exception;
+    R execute(T t) throws Throwable;
 
     /**
      * Returns completable future contains this action executing.
@@ -36,7 +36,7 @@ public interface Action<T, R> {
                 return execute(t);
             } catch (RuntimeException | Error e) {
                 throw e;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 throw new RuntimeException(e);
             }
         });

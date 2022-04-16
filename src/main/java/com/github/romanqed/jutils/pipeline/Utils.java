@@ -29,7 +29,7 @@ class Utils {
                 return action.execute(value);
             } catch (RuntimeException | Error e) {
                 throw e;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 throw new RuntimeException(e);
             }
         };

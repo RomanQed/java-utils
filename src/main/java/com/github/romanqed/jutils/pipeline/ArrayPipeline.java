@@ -19,7 +19,7 @@ public class ArrayPipeline<T> implements Pipeline<T> {
     }
 
     @Override
-    public Object execute(Object o) throws Exception {
+    public Object execute(Object o) throws Throwable {
         Object data = o;
         for (Node<T, Action<Object, Object>> node : body) {
             try {

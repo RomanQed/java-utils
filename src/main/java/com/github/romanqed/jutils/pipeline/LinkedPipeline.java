@@ -24,7 +24,7 @@ public class LinkedPipeline<T> implements Pipeline<T> {
     }
 
     @Override
-    public Object execute(Object o) throws Exception {
+    public Object execute(Object o) throws Throwable {
         Object data = o;
         ActionLink<?> cur = head;
         while (cur != null) {
