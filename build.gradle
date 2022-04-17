@@ -32,63 +32,52 @@ signing {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            customizePom(pom)
-            groupId group
-            artifactId archivesBaseName
-            version version
-
+            // Specify artifacts
+            artifactId = archivesBaseName
+            groupId = group
+            version = version
             from components.java
+            // Configure pom
+            pom {
+                name.set('jutils')
+                description.set('A set of simple utilities for implementing missing functionality in different versions of Java.')
+                url.set('https://github.com/RomanQed/java-utils')
+                organization {
+                    name.set('com.github.romanqed')
+                    url.set('https://github.com/RomanQed/')
+                }
+                issueManagement {
+                    system.set('GitHub')
+                    url.set('https://github.com/RomanQed/java-utils/issues')
+                }
+                licenses {
+                    license {
+                        name.set('MIT License')
+                        url.set('https://github.com/RomanQed/java-utils/blob/main/LICENSE')
+                    }
+                }
+                scm {
+                    url.set('https://github.com/RomanQed/java-utils')
+                    connection.set('scm:https://github.com/RomanQed/java-utils.git')
+                    developerConnection.set('scm:https://github.com/RomanQed/java-utils.git')
+                }
+                developers {
+                    developer {
+                        id.set('RomanQed')
+                        name.set('Roman Bakaldin')
+                        email.set('gbakaldin@gmail.com')
+                    }
+                }
+            }
         }
     }
+
     repositories {
         maven {
             url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             credentials {
                 username System.getenv('SONATYPE_USERNAME')
                 password System.getenv('SONATYPE_PASSWORD')
-            }
-        }
-    }
-}
-
-def customizePom(pom) {
-    pom.withXml {
-        def root = asNode()
-
-        root.dependencies.removeAll { dep ->
-            dep.scope == "test"
-        }
-
-        root.children().last() + {
-            resolveStrategy = DELEGATE_FIRST
-            description 'A set of simple utilities for implementing missing functionality in different versions of Java.'
-            name 'jutils'
-            url 'https://github.com/RomanQed/java-utils'
-            organization {
-                name 'com.github.romanqed'
-                url 'https://github.com/RomanQed/'
-            }
-            issueManagement {
-                system 'GitHub'
-                url 'https://github.com/RomanQed/java-utils/issues'
-            }
-            licenses {
-                license {
-                    name 'MIT License'
-                    url 'https://github.com/RomanQed/java-utils/blob/main/LICENSE'
-                }
-            }
-            scm {
-                url 'https://github.com/RomanQed/java-utils'
-                connection 'scm:https://github.com/RomanQed/java-utils.git'
-                developerConnection 'scm:https://github.com/RomanQed/java-utils.git'
-            }
-            developers {
-                developer {
-                    id 'dev'
-                    name 'RomanQed'
-                    email 'gbakaldin@gmail.com'
-                }
             }
         }
     }
