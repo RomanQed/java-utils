@@ -139,6 +139,20 @@ public class ArrayPipeline<T> implements Pipeline<T> {
     }
 
     @Override
+    public void insertFirst(T key, Action<?, ?> value) {
+        if (isEmpty()) {
+            put(key, value);
+            return;
+        }
+        T head = indexes.entrySet().stream().
+                filter(e -> e.getValue() == 0).
+                findFirst().
+                orElseThrow(IllegalStateException::new).
+                getKey();
+        insertBefore(head, key, value);
+    }
+
+    @Override
     public void clear() {
         synchronized (lock) {
             body.clear();

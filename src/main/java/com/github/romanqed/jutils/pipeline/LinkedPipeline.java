@@ -174,6 +174,15 @@ public class LinkedPipeline<T> implements Pipeline<T> {
     }
 
     @Override
+    public void insertFirst(T key, Action<?, ?> value) {
+        if (isEmpty()) {
+            put(key, value);
+            return;
+        }
+        insertBefore(head.getKey(), key, value);
+    }
+
+    @Override
     public void clear() {
         synchronized (lock) {
             tail = null;

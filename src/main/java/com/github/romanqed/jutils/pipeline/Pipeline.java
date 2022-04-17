@@ -69,6 +69,14 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
     void insertBefore(T key, T insertKey, Action<?, ?> value);
 
     /**
+     * Inserts an action at the beginning of the pipeline
+     *
+     * @param key   the key to insert with
+     * @param value the action to insert
+     */
+    void insertFirst(T key, Action<?, ?> value);
+
+    /**
      * Clears pipeline.
      */
     void clear();
@@ -134,6 +142,26 @@ public interface Pipeline<T> extends Action<Object, Object>, Iterable<Node<T, Ac
             toAdd = iterator.next();
             insertAfter(key, toAdd.getKey(), toAdd.getValue());
             key = toAdd.getKey();
+        }
+    }
+
+    /**
+     * Inserts all actions from received pipeline at the beginning of the pipeline
+     *
+     * @param value pipeline to be inserted
+     */
+    default void insertFirst(Pipeline<T> value) {
+        Objects.requireNonNull(value);
+        Iterator<Node<T, Action<Object, Object>>> iterator = value.iterator();
+        if (!iterator.hasNext()) {
+            return;
+        }
+        Node<T, Action<Object, Object>> first = iterator.next();
+        insertFirst(first.getKey(), first.getValue());
+        while (iterator.hasNext()) {
+            Node<T, Action<Object, Object>> next = iterator.next();
+            insertAfter(first.getKey(), next.getKey(), next.getValue());
+            first = next;
         }
     }
 }
