@@ -39,9 +39,9 @@ public class ArrayPipeline<T> implements Pipeline<T> {
         }
         CompletableFuture<Object> ret = iterator.next().getValue().async(o);
         while (iterator.hasNext()) {
-            ret = ret.thenApplyAsync(Utils.packToFunction(iterator.next().getValue()));
+            ret = ret.thenApplyAsync(Util.packToFunction(iterator.next().getValue()));
         }
-        return ret.exceptionally(Utils.EXCEPTION_HANDLER);
+        return ret.exceptionally(Util.EXCEPTION_HANDLER);
     }
 
     @Override

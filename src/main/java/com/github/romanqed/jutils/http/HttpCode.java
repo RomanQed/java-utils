@@ -1,5 +1,10 @@
 package com.github.romanqed.jutils.http;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 /**
  * An enumeration containing basic http codes with an integer value and a text message.
  */
@@ -72,12 +77,25 @@ public enum HttpCode {
     NOT_EXTENDED(510, "Not Extended"),
     NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required");
 
+    private static final Map<Integer, HttpCode> children = toMap();
     final int code;
     final String message;
 
     HttpCode(int code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    private static Map<Integer, HttpCode> toMap() {
+        Map<Integer, HttpCode> ret = new HashMap<>();
+        for (HttpCode code : HttpCode.values()) {
+            ret.put(code.code, code);
+        }
+        return Collections.unmodifiableMap(ret);
+    }
+
+    public static HttpCode codeOf(int code) {
+        return Objects.requireNonNull(children.get(code));
     }
 
     public int getCode() {

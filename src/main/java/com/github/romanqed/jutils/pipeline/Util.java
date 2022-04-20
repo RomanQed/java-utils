@@ -4,7 +4,7 @@ import com.github.romanqed.jutils.lambdas.Action;
 
 import java.util.function.Function;
 
-class Utils {
+final class Util {
     static final Function<Throwable, Object> EXCEPTION_HANDLER;
 
     static {

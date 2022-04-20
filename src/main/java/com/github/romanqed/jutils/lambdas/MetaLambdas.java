@@ -6,7 +6,10 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-public class MetaLambdas {
+/**
+ * A set of methods that simplify interaction with the meta-lambda generator added in java 8.
+ */
+public final class MetaLambdas {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
     private static final LambdaClass<?> HANDLER = LambdaClass.fromClass(Handler.class);
     private static final LambdaClass<?> ACTION = LambdaClass.fromClass(Action.class);

@@ -47,10 +47,10 @@ public class LinkedPipeline<T> implements Pipeline<T> {
         CompletableFuture<Object> ret = cur.getBody().async(o);
         cur = cur.tail();
         while (cur != null) {
-            ret = ret.thenApplyAsync(Utils.packToFunction(cur.getBody()));
+            ret = ret.thenApplyAsync(Util.packToFunction(cur.getBody()));
             cur = cur.tail();
         }
-        return ret.exceptionally(Utils.EXCEPTION_HANDLER);
+        return ret.exceptionally(Util.EXCEPTION_HANDLER);
     }
 
     @Override
