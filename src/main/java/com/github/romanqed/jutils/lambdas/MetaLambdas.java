@@ -22,7 +22,7 @@ public class MetaLambdas {
         return extractType(method).dropParameterTypes(0, 1);
     }
 
-    public static Action<Object[], Object> packAnyMethod(Object bind, Method method, int arguments) throws Throwable {
+    public static Action<Object[], Object> packAnyMethod(Method method, Object bind, int arguments) throws Throwable {
         Objects.requireNonNull(method);
         method.setAccessible(true);
         MethodHandle handle = LOOKUP.unreflect(method).asSpreader(Object[].class, arguments);
@@ -33,7 +33,7 @@ public class MetaLambdas {
     }
 
     public static Action<Object[], Object> packAnyMethod(Method method, int arguments) throws Throwable {
-        return packAnyMethod(null, method, arguments);
+        return packAnyMethod(method, null, arguments);
     }
 
     @SuppressWarnings("unchecked")
