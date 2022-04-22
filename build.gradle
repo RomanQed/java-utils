@@ -20,10 +20,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation group: 'org.ow2.asm', name: 'asm', version: '9.3'
-}
-
 jar {
     from sourceSets.main.output
     from sourceSets.main.allJava
