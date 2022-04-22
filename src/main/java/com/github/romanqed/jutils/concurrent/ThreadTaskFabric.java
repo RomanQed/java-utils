@@ -19,7 +19,7 @@ public class ThreadTaskFabric implements TaskFabric {
 
     @Override
     public <T> Task<T> createTask(Callable<T> action) {
-        return new AbstractTask<T>() {
+        return new Task<T>() {
             @Override
             public T call() throws Exception {
                 return action.call();
@@ -31,7 +31,6 @@ public class ThreadTaskFabric implements TaskFabric {
             }
         };
     }
-
 
     @Override
     public ExecutorService getExecutor() {

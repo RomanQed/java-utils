@@ -3,10 +3,10 @@ package com.github.romanqed.jutils.concurrent;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
-public class SimpleTaskFabric implements TaskFabric {
+public class RunTaskFabric implements TaskFabric {
     @Override
     public <T> Task<T> createTask(Callable<T> action) {
-        return new AbstractTask<T>() {
+        return new Task<T>() {
             @Override
             public ExecutorService getExecutor() {
                 return null;
