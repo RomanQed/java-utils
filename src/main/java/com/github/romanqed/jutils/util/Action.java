@@ -1,4 +1,4 @@
-package com.github.romanqed.jutils.lambdas;
+package com.github.romanqed.jutils.util;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;

@@ -1,6 +1,6 @@
 package com.github.romanqed.jutils.pipeline;
 
-import com.github.romanqed.jutils.lambdas.Action;
+import com.github.romanqed.jutils.util.Action;
 
 import java.util.function.Function;
 

@@ -14,10 +14,14 @@ java {
 
 group = 'com.github.romanqed'
 archivesBaseName = 'jutils'
-version = System.getenv('RELEASE_VERSION') ?: "1.0.0"
+version = System.getenv('RELEASE_VERSION') ?: '1.0.0'
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.ow2.asm', name: 'asm', version: '9.3'
 }
 
 jar {
