@@ -1,4 +1,4 @@
-# java-utils [![maven-central](https://img.shields.io/maven-central/v/com.github.romanqed/jutils?color=blue)](https://repo1.maven.org/maven2/com/github/romanqed/jutils/)
+# java-utils [![maven-central](https://img.shields.io/maven-central/v/com.github.romanqed/java-utils?color=blue)](https://repo1.maven.org/maven2/com/github/romanqed/java-utils/)
 
 A set of simple utilities for implementing missing functionality in different versions of Java.
 
@@ -15,7 +15,7 @@ To install it, you will need:
 
 ```Groovy
 dependencies {
-    implementation group: 'com.github.romanqed', name: 'jutils', version: 'LATEST'
+    implementation group: 'com.github.romanqed', name: 'java-utils', version: 'LATEST'
 }
 ```
 
@@ -24,7 +24,7 @@ dependencies {
 ```
 <dependency>
     <groupId>com.github.romanqed</groupId>
-    <artifactId>jutils</artifactId>
+    <artifactId>java-utils</artifactId>
     <version>LATEST</version>
 </dependency>
 ```

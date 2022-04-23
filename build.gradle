@@ -13,7 +13,7 @@ java {
 }
 
 group = 'com.github.romanqed'
-archivesBaseName = 'jutils'
+archivesBaseName = 'java-utils'
 version = System.getenv('RELEASE_VERSION') ?: '1.0.0'
 
 repositories {
@@ -39,7 +39,7 @@ publishing {
             from components.java
             // Configure pom
             pom {
-                name.set('jutils')
+                name.set('java-utils')
                 description.set('A set of simple utilities for implementing missing functionality in different versions of Java.')
                 url.set('https://github.com/RomanQed/java-utils')
                 organization {
