@@ -1,6 +1,6 @@
 package com.github.romanqed.util.pipeline;
 
-import com.github.romanqed.util.util.Action;
+import com.github.romanqed.util.Action;
 
 import java.util.function.Function;
 

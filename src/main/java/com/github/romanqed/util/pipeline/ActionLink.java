@@ -1,7 +1,7 @@
 package com.github.romanqed.util.pipeline;
 
+import com.github.romanqed.util.Action;
 import com.github.romanqed.util.chain.AbstractLink;
-import com.github.romanqed.util.util.Action;
 
 import java.util.Objects;
 

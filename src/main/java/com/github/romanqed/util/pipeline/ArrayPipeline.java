@@ -1,7 +1,7 @@
 package com.github.romanqed.util.pipeline;
 
-import com.github.romanqed.util.util.Action;
-import com.github.romanqed.util.util.Node;
+import com.github.romanqed.util.Action;
+import com.github.romanqed.util.Node;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;

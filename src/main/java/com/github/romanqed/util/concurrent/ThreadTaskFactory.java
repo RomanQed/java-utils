@@ -1,6 +1,6 @@
 package com.github.romanqed.util.concurrent;
 
-import com.github.romanqed.util.util.Checks;
+import com.github.romanqed.util.Checks;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
