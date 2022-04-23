@@ -36,7 +36,7 @@ dependencies {
 ## Authors
 * **RomanQed** - *Main work* - [RomanQed](https://github.com/RomanQed)
 
-See also the list of [contributors](https://github.com/AmayaFramework/amaya-filters/contributors)
+See also the list of [contributors](https://github.com/RomanQed/java-utils/contributors)
 who participated in this project.
 
 ## License
